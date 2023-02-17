@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from fastapi import FastAPI
 
-from .models import (
+from chessapi.models import (
     GamesGameIdGetResponse,
     GamesGameIdPutRequest,
     GamesGetResponse,
@@ -12,68 +12,116 @@ from .models import (
     GamesPostResponse,
 )
 
-from .games import Game, Games
+from chessapi.games import Game, Games
+from chessapi import __version__
 
 app = FastAPI(
     title="Chess Game API",
-    version="1.0.0",
+    version=__version__,
     servers=[{"url": "http://localhost:8000"}],
 )
 
 ALL_GAMES = Games()
 
 
+@app.get("/")
+def read_root() -> Dict[str, str]:
+    try:
+        return {
+            "API": "Chess API",
+            "Description": "A simple chess API.",
+            "Version": __version__,
+        }
+    except Exception as exc:
+        return {"error": f"{exc}"}
+
+
 @app.get("/games", response_model=List[GamesGetResponse])
-def get_games() -> List[GamesGetResponse]:
+def get_games() -> List[GamesGetResponse] | Dict[str, str]:
     """
     Get a list of all games
     """
-    return ALL_GAMES.get_games()
+    try:
+        game_responses = []
+        for _, game in ALL_GAMES.get_games().items():
+            game_responses.append(
+                GamesGetResponse(
+                    id=game.id,
+                    state=game.board.fen(),
+                    player1=game.player1,
+                    player2=game.player2,
+                )
+            )
+
+        return game_responses
+    except Exception as exc:
+        return {"error": f"{exc}"}
 
 
 @app.post(
     "/games", response_model=None, responses={"201": {"model": GamesPostResponse}}
 )
-def post_games(body: GamesPostRequest) -> Union[None, GamesPostResponse]:
+def post_games(body: GamesPostRequest) -> None | GamesPostResponse:
     """
     Create a new game
     """
+    try:
+        # add the game to the list of games
+        id = ALL_GAMES.add_game(body.state, body.player1, body.player2)
 
-    # create a new game
-    new_game = Game(state=body.state, player1=body.player1, player2=body.player2)
+        # return the new game's ID
+        return GamesPostResponse(id=id)
 
-    # add the game to the list of games
-    ALL_GAMES.add_game(new_game)
-
-    # return the new game's ID
-    return GamesPostResponse(id=new_game.id)
+    except Exception as exc:
+        return {"error": f"{exc}"}
 
 
 @app.get("/games/{game_id}", response_model=GamesGameIdGetResponse)
-def get_games_game_id(game_id: str) -> GamesGameIdGetResponse:
+def get_games_game_id(game_id: str) -> GamesGameIdGetResponse | Dict[str, str]:
     """
     Get the details of a game by ID
     """
-    game = ALL_GAMES.get_game(game_id)
-    return GamesGameIdGetResponse(
-        id=game.id,
-        state=game.board.fen(),
-        player1=game.player1,
-        player2=game.player2,
-    )
+    try:
+        game = ALL_GAMES.get_game(game_id)
+
+        return GamesGameIdGetResponse(
+            id=game.id,
+            state=game.board.fen(),
+            player1=game.player1,
+            player2=game.player2,
+        )
+
+    except Exception as exc:
+        return {"error": f"{exc}"}
 
 
 @app.put("/games/{game_id}", response_model=None)
-def put_games_game_id(game_id: str, body: GamesGameIdPutRequest = ...) -> None:
+def put_games_game_id(
+    game_id: str, body: GamesGameIdPutRequest = ...
+) -> Dict[str, str] | None:
     """
     Update the state of a game by ID
     """
-    ALL_GAMES.update_game(game_id, body.state)
+    try:
+        ALL_GAMES.update_game(game_id, body.state)
+
+    except Exception as exc:
+        return {"error": f"{exc}"}
 
 
 @app.delete("/games/{game_id}", response_model=None)
-def delete_games_game_id(game_id: str) -> None:
+def delete_games_game_id(game_id: str) -> None | Dict[str, str]:
     """
     Delete a game by ID
     """
-    ALL_GAMES.delete_game(game_id)
+    try:
+        ALL_GAMES.delete_game(game_id)
+
+    except Exception as exc:
+        return {"error": f"{exc}"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
