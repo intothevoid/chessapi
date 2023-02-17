@@ -122,7 +122,7 @@ docker build -t intothevoid/chessapi .
 2. Run docker container
 
 ```bash
-docker run --name chessapi --port 8000:8000 intothevoid/chessapi
+docker run --rm -d --name chessapi -p 8000:8000 intothevoid/chessapi
 ```
 
 3. Open browser and go to http://localhost:8000/docs
