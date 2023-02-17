@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 from typing import Optional
-
 from pydantic import BaseModel, Field
 
 
@@ -38,4 +36,16 @@ class GamesGameIdGetResponse(BaseModel):
 class GamesGameIdPutRequest(BaseModel):
     state: Optional[str] = Field(
         None, description="The FEN representation of the game's new state"
+    )
+
+
+class GamesGameIdPutResponse(BaseModel):
+    id: Optional[str] = Field(
+        None, description="The unique ID of the game that was updated"
+    )
+
+
+class GamesGameIdDeleteResponse(BaseModel):
+    id: Optional[str] = Field(
+        None, description="The unique ID of the game that was deleted"
     )

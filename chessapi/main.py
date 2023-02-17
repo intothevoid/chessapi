@@ -5,8 +5,10 @@ from typing import Dict, List, Optional, Union
 from fastapi import FastAPI
 
 from chessapi.models import (
+    GamesGameIdDeleteResponse,
     GamesGameIdGetResponse,
     GamesGameIdPutRequest,
+    GamesGameIdPutResponse,
     GamesGetResponse,
     GamesPostRequest,
     GamesPostResponse,
@@ -98,12 +100,14 @@ def get_games_game_id(game_id: str) -> GamesGameIdGetResponse | Dict[str, str]:
 @app.put("/games/{game_id}", response_model=None)
 def put_games_game_id(
     game_id: str, body: GamesGameIdPutRequest = ...
-) -> Dict[str, str] | None:
+) -> Dict[str, str] | GamesGameIdPutResponse:
     """
     Update the state of a game by ID
     """
     try:
         ALL_GAMES.update_game(game_id, body.state)
+
+        return GamesGameIdPutResponse(id=game_id)
 
     except Exception as exc:
         return {"error": f"{exc}"}
@@ -116,6 +120,8 @@ def delete_games_game_id(game_id: str) -> None | Dict[str, str]:
     """
     try:
         ALL_GAMES.delete_game(game_id)
+
+        return GamesGameIdDeleteResponse(id=game_id)
 
     except Exception as exc:
         return {"error": f"{exc}"}
