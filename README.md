@@ -111,7 +111,23 @@ This route deletes a specific game in the database.
 - [Python Chess](https://python-chess.readthedocs.io/en/latest/)
 - [FastAPI](https://fastapi.tiangolo.com/)
 
-### Installation
+### Docker Install - Recommended
+
+1. Build docker image
+
+```bash
+docker build -t intothevoid/chessapi .
+```
+
+2. Run docker container
+
+```bash
+docker run --name chessapi --port 8000:8000 intothevoid/chessapi
+```
+
+3. Open browser and go to http://localhost:8000/docs
+
+### Standard Install
 
 1. Clone the repository
 
@@ -130,9 +146,10 @@ pip install -r requirements.txt
 3. Run the server
 
 ```bash
-PYTHONPATH=.
 uvicorn chessapi.main:app --reload
 ```
+
+4. Open browser and go to http://localhost:8000/docs
 
 ## References
 
