@@ -1,9 +1,9 @@
 """
 A chess class representing a chess board
 """
+import chess
 from dataclasses import dataclass
 from typing import Dict
-import chess
 
 
 @dataclass
@@ -68,7 +68,7 @@ class Games:
         state: str = None,
         player1: str = "Player 1",
         player2: str = "Player 2",
-    ) -> None:
+    ) -> str:
         """
         Add a new game to the list of games
         """
@@ -80,10 +80,14 @@ class Games:
 
         self.games[game.id] = game
 
+        return game.id
+
     def get_game(self, game_id: str) -> Game:
         """
         Get a game by ID
         """
+        if game_id not in self.games:
+            raise Exception(f"game with id {game_id} not found")
         return self.games[game_id]
 
     def update_game(self, game_id: str, state: str) -> None:
