@@ -18,57 +18,30 @@ This route returns a list of all the games in the database.
 [
     {
         "id": 1,
-        "white_player": "John",
-        "black_player": "Jane",
-        "winner": "John",
-        "moves": [
-            {
-                "id": 1,
-                "game_id": 1,
-                "move": "e4",
-                "player": "John"
-            },
-            {
-                "id": 2,
-                "game_id": 1,
-                "move": "e5",
-                "player": "Jane"
-            }
-        ]
+        "player1": "John",
+        "player2": "Jane",
+        "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
     },
     {
         "id": 2,
-        "white_player": "John",
-        "black_player": "Jane",
-        "winner": "John",
-        "moves": [
-            {
-                "id": 3,
-                "game_id": 2,
-                "move": "e4",
-                "player": "John"
-            },
-            {
-                "id": 4,
-                "game_id": 2,
-                "move": "e5",
-                "player": "Jane"
-            }
-        ]
-    }
+        "player1": "Vishwanathan",
+        "player2": "Gary",
+        "state": "4k2r/6r1/8/8/8/8/3R4/R3K3 w Qk - 0 1",
+    },
 ]
 ```
 
 ### POST /games
 
-This route creates a new game in the database.
+This route creates a new game in the database. An ID is automatically generated for the game. If state is not provided, the game will start with the default chess board.
 
 #### Example Request
 
 ```json
 {
-    "white_player": "John",
-    "black_player": "Jane"
+    "player1": "John",
+    "player2": "Jane",
+    "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
 }
 ```
 
@@ -76,11 +49,10 @@ This route creates a new game in the database.
 
 ```json
 {
-    "id": 1,
-    "white_player": "John",
-    "black_player": "Jane",
-    "winner": null,
-    "moves": []
+    "id": 3,
+    "player1": "John",
+    "player2": "Jane",
+    "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
 }
 ```
 
@@ -93,23 +65,9 @@ This route returns a specific game in the database.
 ```json
 {
     "id": 1,
-    "white_player": "John",
-    "black_player": "Jane",
-    "winner": "John",
-    "moves": [
-        {
-            "id": 1,
-            "game_id": 1,
-            "move": "e4",
-            "player": "John"
-        },
-        {
-            "id": 2,
-            "game_id": 1,
-            "move": "e5",
-            "player": "Jane"
-        }
-    ]
+    "player1": "John",
+    "player2": "Jane",
+    "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
 }
 ```
 
@@ -121,7 +79,7 @@ This route updates a specific game in the database.
 
 ```json
 {
-    "winner": "John"
+    "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
 }
 ```
 
@@ -130,23 +88,9 @@ This route updates a specific game in the database.
 ```json
 {
     "id": 1,
-    "white_player": "John",
-    "black_player": "Jane",
-    "winner": "John",
-    "moves": [
-        {
-            "id": 1,
-            "game_id": 1,
-            "move": "e4",
-            "player": "John"
-        },
-        {
-            "id": 2,
-            "game_id": 1,
-            "move": "e5",
-            "player": "Jane"
-        }
-    ]
+    "player1": "John",
+    "player2": "Jane",
+    "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
 }
 ```
 
@@ -159,23 +103,9 @@ This route deletes a specific game in the database.
 ```json
 {
     "id": 1,
-    "white_player": "John",
-    "black_player": "Jane",
-    "winner": "John",
-    "moves": [
-        {
-            "id": 1,
-            "game_id": 1,
-            "move": "e4",
-            "player": "John"
-        },
-        {
-            "id": 2,
-            "game_id": 1,
-            "move": "e5",
-            "player": "Jane"
-        }
-    ]
+    "player1": "John",
+    "player2": "Jane",
+    "state": "rnbqkbnr/pp1ppppp/8/2p5/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 2"
 }
 ```
 
@@ -184,6 +114,7 @@ This route deletes a specific game in the database.
 ### Requirements
 
 - [Python 3.8](https://www.python.org/downloads/release/python-380/)
+- [Python Chess](https://python-chess.readthedocs.io/en/latest/)
 - [FastAPI](https://fastapi.tiangolo.com/)
 
 ### Installation
