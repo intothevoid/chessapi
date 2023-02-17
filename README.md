@@ -1,6 +1,6 @@
 # Multiplayer Chess API
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/500px-ChessSet.jpg" width=80% height=80%></img>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/ChessSet.jpg/500px-ChessSet.jpg" width=50% height=50%></img>
 
 This is a backend service that allows developers to create, read, update, and delete multiplayer chess games. Chess is a popular game that has been around for centuries. Chess is a game that requires strategy and planning. This server could be used to create a chess game, a chess website, or a chess mobile app.
 
