@@ -8,7 +8,7 @@ This server has five endpoints that allow developers to create, read, update, an
 
 ## Routes
 
-### GET /games
+### GET /api/v1/games
 
 This route returns a list of all the games in the database.
 
@@ -31,7 +31,7 @@ This route returns a list of all the games in the database.
 ]
 ```
 
-### POST /games
+### POST /api/v1/games
 
 This route creates a new game in the database. An ID is automatically generated for the game. If state is not provided, the game will start with the default chess board.
 
@@ -56,7 +56,7 @@ This route creates a new game in the database. An ID is automatically generated 
 }
 ```
 
-### GET /games/{game_id}
+### GET /api/v1/games/{game_id}
 
 This route returns a specific game in the database.
 
@@ -71,7 +71,7 @@ This route returns a specific game in the database.
 }
 ```
 
-### PUT /games/{game_id}
+### PUT /api/v1/games/{game_id}
 
 This route updates a specific game in the database.
 
@@ -91,7 +91,7 @@ This route updates a specific game in the database.
 }
 ```
 
-### DELETE /games/{game_id}
+### DELETE /api/v1/games/{game_id}
 
 This route deletes a specific game in the database.
 

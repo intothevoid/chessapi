@@ -38,7 +38,7 @@ def read_root() -> Dict[str, str]:
         return {"error": f"{exc}"}
 
 
-@app.get("/games", response_model=List[GamesGetResponse])
+@app.get("/api/v1/games", response_model=List[GamesGetResponse])
 def get_games() -> List[GamesGetResponse] | Dict[str, str]:
     """
     Get a list of all games
@@ -61,7 +61,9 @@ def get_games() -> List[GamesGetResponse] | Dict[str, str]:
 
 
 @app.post(
-    "/games", response_model=None, responses={"201": {"model": GamesPostResponse}}
+    "/api/v1/games",
+    response_model=None,
+    responses={"201": {"model": GamesPostResponse}},
 )
 def post_games(body: GamesPostRequest) -> None | GamesPostResponse:
     """
@@ -91,7 +93,7 @@ def post_games(body: GamesPostRequest) -> None | GamesPostResponse:
         return {"error": f"{exc}"}
 
 
-@app.get("/games/{game_id}", response_model=GamesGameIdGetResponse)
+@app.get("/api/v1/games/{game_id}", response_model=GamesGameIdGetResponse)
 def get_games_game_id(game_id: str) -> GamesGameIdGetResponse | Dict[str, str]:
     """
     Get the details of a game by ID
@@ -110,7 +112,7 @@ def get_games_game_id(game_id: str) -> GamesGameIdGetResponse | Dict[str, str]:
         return {"error": f"{exc}"}
 
 
-@app.put("/games/{game_id}", response_model=None)
+@app.put("/api/v1/games/{game_id}", response_model=None)
 def put_games_game_id(
     game_id: str, body: GamesGameIdPutRequest = ...
 ) -> Dict[str, str] | GamesGameIdPutResponse:
@@ -126,7 +128,7 @@ def put_games_game_id(
         return {"error": f"{exc}"}
 
 
-@app.delete("/games/{game_id}", response_model=None)
+@app.delete("/api/v1/games/{game_id}", response_model=None)
 def delete_games_game_id(game_id: str) -> None | Dict[str, str]:
     """
     Delete a game by ID
