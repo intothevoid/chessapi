@@ -68,8 +68,21 @@ def post_games(body: GamesPostRequest) -> None | GamesPostResponse:
     Create a new game
     """
     try:
-        # add the game to the list of games
-        id = ALL_GAMES.add_game(body.state, body.player1, body.player2)
+        if body.player1 is None and body.player2 is None:
+            return {"error": "must specify at least one player"}
+        else:
+            # check if any game exists with missing player, if so, add the player to that game
+            # else create a new game
+            for _, game in ALL_GAMES.get_games().items():
+                if not game.player1:
+                    game.player1 = body.player1 if body.player1 else body.player2
+                    return GamesPostResponse(id=game.id)
+                elif not game.player2:
+                    game.player2 = body.player1 if body.player1 else body.player2
+                    return GamesPostResponse(id=game.id)
+
+            # add the game to the list of games
+            id = ALL_GAMES.add_game(body.state, body.player1, body.player2)
 
         # return the new game's ID
         return GamesPostResponse(id=id)
