@@ -84,6 +84,8 @@ def post_games(body: GamesPostRequest) -> None | GamesPostResponse:
                     return GamesPostResponse(id=game.id)
 
             # add the game to the list of games
+            # do not set the state of the game when creating a new game
+            body.state = ""
             id = ALL_GAMES.add_game(body.state, body.player1, body.player2)
 
         # return the new game's ID

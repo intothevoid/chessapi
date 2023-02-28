@@ -73,7 +73,7 @@ class Games:
         Add a new game to the list of games
         """
         game = None
-        if state is None:
+        if not state:
             game = Game(player1=player1, player2=player2)
         else:
             game = Game(state=state, player1=player1, player2=player2)
@@ -94,7 +94,11 @@ class Games:
         """
         Update a game by ID
         """
-        self.games[game_id].board = chess.Board(state)
+        if game_id in self.games:
+            # check if state has changed
+            if self.games[game_id].board.fen() != state:
+                # update the game state
+                self.games[game_id].board = chess.Board(state)
 
     def delete_game(self, game_id: str) -> None:
         """
